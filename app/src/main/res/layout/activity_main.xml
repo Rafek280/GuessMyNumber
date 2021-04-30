@@ -92,46 +92,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="137dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:text="Divisibility Hint"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton2"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="160dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:text="Prime Number Hint"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton3"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <RadioButton
-        android:id="@+id/radioButton3"
-        android:layout_width="154dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:text="Digit Sum Hint"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton4"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <RadioButton
-        android:id="@+id/radioButton4"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginBottom="28dp"
-        android:text="Digit Product Hint"
+    <RadioGroup
+        android:layout_width="177dp"
+        android:layout_height="208dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/divisibilityHint"
+            android:layout_width="154dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:text="Divisibility Hint" />
+
+        <RadioButton
+            android:id="@+id/primeHint"
+            android:layout_width="154dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:text="Prime Number Hint" />
+
+        <RadioButton
+            android:id="@+id/sumHint"
+            android:layout_width="154dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:text="Digit Sum Hint" />
+
+        <RadioButton
+            android:id="@+id/productHint"
+            android:layout_width="154dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:text="Digit Product Hint" />
+
+
+
+
+
+
+    </RadioGroup>
+
 
     <EditText
         android:id="@+id/guessNumber"
@@ -147,15 +153,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/score"
         android:layout_width="152dp"
         android:layout_height="31dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="308dp"
         android:background="#4CAF50"
         android:gravity="center"
-        android:text="100"
+        android:text="0"
         android:textColor="@color/white"
         android:textColorHighlight="#FFFFFF"
         android:textColorHint="#FFFFFF"
@@ -164,7 +169,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/hint"
         android:layout_width="94dp"
         android:layout_height="48dp"
         android:layout_marginEnd="130dp"
