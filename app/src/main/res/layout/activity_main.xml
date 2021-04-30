@@ -134,7 +134,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/guessNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -142,7 +142,7 @@
         android:layout_marginBottom="375dp"
         android:ems="10"
         android:inputType="number"
-        android:text="Enter number here..."
+        android:hint="Enter number here..."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -155,7 +155,7 @@
         android:layout_marginBottom="308dp"
         android:background="#4CAF50"
         android:gravity="center"
-        android:text="0"
+        android:text="100"
         android:textColor="@color/white"
         android:textColorHighlight="#FFFFFF"
         android:textColorHint="#FFFFFF"
@@ -178,7 +178,7 @@
         app:strokeColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/evaluate"
         android:layout_width="148dp"
         android:layout_height="50dp"
         android:layout_marginEnd="10dp"
@@ -207,7 +207,7 @@
         android:layout_marginLeft="132dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -220,8 +220,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="500"
+        android:inputType="numberDecimal"
+        android:text="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
