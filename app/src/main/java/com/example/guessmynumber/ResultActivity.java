@@ -2,6 +2,7 @@ package com.example.guessmynumber;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -18,29 +19,26 @@ public class ResultActivity extends AppCompatActivity {
 
         finalText = (TextView) findViewById(R.id.finalText);
 
-      //  System.out.println(MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber));
-      //  System.out.println(MainActivity.getInstance().currentrandomnumber);
 
-     /*   if(MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber)>MainActivity.getInstance().currentrandomnumber){
-            finalText.setText("Your guess of " + MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber) + " is TOO HIGH!");
-        }
-        if(MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber)<MainActivity.getInstance().currentrandomnumber){
-            finalText.setText("Your guess of " + MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber) + " is TOO LOW!");
-        }
-        if(MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber)==MainActivity.getInstance().currentrandomnumber){
-            finalText.setText("Your guess of " + MainActivity.getInstance().getValueEdittext(MainActivity.getInstance().guessNumber) + " is correct!");
-        }/*
+        finalText.setText(String.valueOf(MainActivity.currentrandomnumber));//Here will be check the current random number and the given number from User
 
-       /* (MainActivity)getActiv
+        System.out.println("HIER IST DIE RANDOM NUMBER" + MainActivity.currentrandomnumber);
 
-        if(MainActivity.getValueEdittext(MainActivity.guessNumber)>MainActivity.currentrandomnumber){
-            System.out.println("Your guess of " + getValueEdittext(guessNumber) + " is TOO HIGH!");
+        if(MainActivity.currentscore<=0){
+            finalText.setText("Your Score is 0!\n You Lost!");
         }
-        if(getValueEdittext(guessNumber)<currentrandomnumber){
-            System.out.println("Your guess of " + getValueEdittext(guessNumber) + " is TOO LOW!");
+        else if(MainActivity.guessNumberInt>MainActivity.currentrandomnumber){//Bigger than
+            finalText.setText("Your guess of " + MainActivity.guessNumberInt  + " is TOO HIGH!");
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#FFB2A5"));
         }
-        if(getValueEdittext(guessNumber)==currentrandomnumber){
-            System.out.println("Excellent! " + getValueEdittext(guessNumber) + " is correct!");
-        }*/
+        else if(MainActivity.guessNumberInt<MainActivity.currentrandomnumber){//Lower than
+            finalText.setText("Your guess of " + MainActivity.guessNumberInt  + " is TOO LOW!");
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#C6DAF8"));
+        }
+        else if(MainActivity.guessNumberInt==MainActivity.currentrandomnumber){// same as
+            finalText.setText("Excellent!\n " + MainActivity.guessNumberInt + " is correct!");
+        }
+
+
     }
 }

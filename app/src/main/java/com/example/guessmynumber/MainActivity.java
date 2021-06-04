@@ -1,7 +1,6 @@
 package com.example.guessmynumber;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,31 +11,25 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private static MainActivity instance;
+    public static int currentrandomnumber=0;
+    public static int guessNumberInt=0;
+    public static int currentscore=100;
 
-    int currentrandomnumber=0;
-    SeekBar seekBar;
-    SeekBar seekBar2;
-    EditText lowerBound;
-    EditText upperBound;
-    EditText guessNumber;
-    Button generate;
-    Button hint;
-    Button evaluate;
+    SeekBar seekBar,seekBar2;
+    EditText lowerBound,upperBound,guessNumber;
+    Button generate,hint,evaluate;
     TextView score;
-    RadioButton productHint;
-    RadioButton sumHint;
-    RadioButton primeHint;
-    RadioButton divisibilityHint;
+    RadioButton productHint,sumHint,primeHint,divisibilityHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize the visual Elements
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
         lowerBound = (EditText) findViewById(R.id.lowerBound);
@@ -51,30 +44,26 @@ public class MainActivity extends AppCompatActivity {
         divisibilityHint = (RadioButton) findViewById(R.id.divisibilityHint);
         hint = (Button) findViewById(R.id.hint);
 
+        //currentscore=Integer.valueOf(score.getText().toString());//Score
+
+        hint.setEnabled(false);//Disable both buttons at the beginning
+        evaluate.setEnabled(false);
+
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "A secret number has been generated randomly. Go, guess it!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "A secret number has been generated randomly. Go, guess it!", Toast.LENGTH_SHORT).show();
                 currentrandomnumber=generateRandomNumber();
+                hint.setEnabled(true);
+                evaluate.setEnabled(true);
             }
         });
 
         evaluate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                currentscore--;
                 openResultActivity();
-
-          /*      if(getValueEdittext(guessNumber)>currentrandomnumber){
-                    System.out.println("Your guess of " + getValueEdittext(guessNumber) + " is TOO HIGH!");
-                }
-                if(getValueEdittext(guessNumber)<currentrandomnumber){
-                    System.out.println("Your guess of " + getValueEdittext(guessNumber) + " is TOO LOW!");
-                }
-                if(getValueEdittext(guessNumber)==currentrandomnumber){
-                    System.out.println("Excellent! " + getValueEdittext(guessNumber) + " is correct!");
-                }*/
-
             }
         });
 
@@ -87,39 +76,112 @@ public class MainActivity extends AppCompatActivity {
         hint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(divisibilityHint.isChecked()){
-                   /* if((currentrandomnumber % 5)== 0) {
 
+                    currentscore--;
+                    if((currentrandomnumber % 5)== 0) {
 
-                        Toast.makeText(MainActivity.this, "It is by 5 dividable", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "It is by 5 dividable", Toast.LENGTH_SHORT).show();
+
                     }
                     else{
-                        Toast.makeText(MainActivity.this, "It is NOT by 5 dividable", Toast.LENGTH_LONG).show();
-                    }*/
+                        Toast.makeText(MainActivity.this, "It is NOT by 5 dividable", Toast.LENGTH_SHORT).show();
+
                     }
-                if(primeHint.isChecked()){
-                    Toast.makeText(MainActivity.this, "A secret number has been generated randomly. Go, guess it!", Toast.LENGTH_LONG).show();
+                    }
+                else if(primeHint.isChecked()){
+
+                    currentscore=currentscore - 10;
+                    int num = currentrandomnumber;
+
+                    boolean flag = false;
+                    for (int i = 2; i <= num / 2; ++i) {
+                        // condition for nonprime number
+                        if (num % i == 0) {
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!flag) {
+                        Toast.makeText(MainActivity.this, "It is a prime number.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "It is NOT a prime number.", Toast.LENGTH_SHORT).show();
                 }
-                if(sumHint.isChecked()){
-                    Toast.makeText(MainActivity.this, "A secret number has been generated randomly. Go, guess it!", Toast.LENGTH_LONG).show();
                 }
-                if(productHint.isChecked()){
-                    Toast.makeText(MainActivity.this, "A secret number has been generated randomly. Go, guess it!", Toast.LENGTH_LONG).show();
+                else if(sumHint.isChecked()){
+
+                    currentscore=currentscore - 5;
+                    int num = currentrandomnumber;
+                    int sum = 0;
+                    while (num > 0) {
+                        sum = sum + num % 10;
+                        num = num / 10;
+                    }
+                    Toast.makeText(MainActivity.this, "The digit sum is "+ sum, Toast.LENGTH_SHORT).show();
+                }
+                else if(productHint.isChecked()){
+                    currentscore=currentscore - 10;
+                    int product = 1;
+                    int num = currentrandomnumber;
+                    while (num != 0) {
+                        product = product * (num % 10);
+                        num = num / 10;
+                    }
+                    Toast.makeText(MainActivity.this, "The digit sum is "+ product, Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
 
-        new Thread(new Runnable() {
+
+        new Thread(new Runnable() {//this Thread execute
             @Override
             public void run() {
                 //your 1st command
                 while (true) {
                     edittexttoseekbar();
+                    score.setText(String.valueOf(currentscore));
+                 /*   if(divisibilityHint.isChecked()) {
+                        if (currentscore < 1) {
+                            hint.setEnabled(false);
+                        }
+                        else{
+                            hint.setEnabled(true);
+                        }
+                    }
+                    else if(primeHint.isChecked()) {
+                        if (currentscore < 10) {
+                            hint.setEnabled(false);
+                        }
+                        else{
+                            hint.setEnabled(true);
+                        }
+                    }
+                    else if(sumHint.isChecked()) {
+                        if (currentscore < 5) {
+                            hint.setEnabled(false);
+                        }
+                        else{
+                            hint.setEnabled(true);
+                        }
+                    }
+                    else if(productHint.isChecked()) {
+                        if (currentscore < 10) {
+                            hint.setEnabled(false);
+                        }
+                        else{
+                            hint.setEnabled(true);
+                        }
+                    }*/
+
+
                     //you can use a for here and check if the command was executed or just wait and execute the 2nd command
                     try {
 
-                        Thread.sleep(500); //wait 2 seconds
+                        Thread.sleep(500); //every 0.5 second
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -176,8 +238,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void edittexttoseekbar(){
 
-
-
             try {
                 if(getValueEdittext(upperBound)>0 && getValueEdittext(upperBound)<=1000 ){
                 seekBar2.setProgress(getValueEdittext(upperBound));
@@ -202,13 +262,14 @@ public class MainActivity extends AppCompatActivity {
         int max = getValueEdittext(upperBound);;
 
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
-        score.setText("100");
+        score.setText(String.valueOf(currentscore));
         return random_int;
     }
 
     public void openResultActivity(){
 
-        Intent intent = new Intent(this, ResultActivity.class);
+        Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+        guessNumberInt=getValueEdittext(guessNumber);
         startActivity(intent);
     }
 
@@ -219,7 +280,4 @@ public class MainActivity extends AppCompatActivity {
         return finalValue;
 }
 
-    public static MainActivity getInstance(){
-        return instance;
-    }
 }
