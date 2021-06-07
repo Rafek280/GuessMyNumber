@@ -2,8 +2,11 @@ package com.example.guessmynumber;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ import android.widget.TextView;
 public class ResultActivity extends AppCompatActivity {
 
     TextView finalText;
+    Button dismiss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +22,14 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         finalText = (TextView) findViewById(R.id.finalText);
+        dismiss = (Button) findViewById(R.id.dismiss);
 
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backMainActivity();
+            }
+        });
 
         finalText.setText(String.valueOf(MainActivity.currentrandomnumber));//Here will be check the current random number and the given number from User
 
@@ -41,4 +52,9 @@ public class ResultActivity extends AppCompatActivity {
 
 
     }
+    void backMainActivity(){
+        Intent intent = new Intent(ResultActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -16,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
     public static int currentrandomnumber=0;
     public static int guessNumberInt=0;
-    public static int currentscore=100;
+    public static int currentscore;
+    String saveValue;
 
     SeekBar seekBar,seekBar2;
     EditText lowerBound,upperBound,guessNumber;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         guessNumber = (EditText) findViewById(R.id.guessNumber);
         generate = (Button) findViewById(R.id.generate);
         evaluate = (Button) findViewById(R.id.evaluate);
+
         score = (TextView) findViewById(R.id.score);
         productHint = (RadioButton) findViewById(R.id.productHint);
         sumHint = (RadioButton) findViewById(R.id.sumHint);
@@ -44,10 +46,26 @@ public class MainActivity extends AppCompatActivity {
         divisibilityHint = (RadioButton) findViewById(R.id.divisibilityHint);
         hint = (Button) findViewById(R.id.hint);
 
-        //currentscore=Integer.valueOf(score.getText().toString());//Score
 
-        hint.setEnabled(false);//Disable both buttons at the beginning
-        evaluate.setEnabled(false);
+        if (savedInstanceState != null) {
+            // Then the application is being reloaded
+        }
+        else{
+            String example= savedInstanceState.getString("currentscore");
+            currentscore=Integer.valueOf(example);
+        }
+
+
+        if(currentrandomnumber<=0 ){
+            hint.setEnabled(false);//Disable both buttons at the beginning
+            evaluate.setEnabled(false);
+            //currentscore=0;
+        }
+        else{
+            hint.setEnabled(true);//Enable both buttons at the beginning
+            evaluate.setEnabled(true);
+
+        }
 
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 currentrandomnumber=generateRandomNumber();
                 hint.setEnabled(true);
                 evaluate.setEnabled(true);
+                currentscore=getValueEdittext(upperBound)-getValueEdittext(lowerBound);
             }
         });
 
@@ -121,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         num = num / 10;
                     }
                     Toast.makeText(MainActivity.this, "The digit sum is "+ sum, Toast.LENGTH_SHORT).show();
+
                 }
                 else if(productHint.isChecked()){
                     currentscore=currentscore - 10;
@@ -130,11 +150,13 @@ public class MainActivity extends AppCompatActivity {
                         product = product * (num % 10);
                         num = num / 10;
                     }
-                    Toast.makeText(MainActivity.this, "The digit sum is "+ product, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "The digit product is "+ product, Toast.LENGTH_SHORT).show();
+
                 }
             }
 
         });
+
 
 
         new Thread(new Runnable() {//this Thread execute
@@ -144,43 +166,26 @@ public class MainActivity extends AppCompatActivity {
                 while (true) {
                     edittexttoseekbar();
                     score.setText(String.valueOf(currentscore));
-                 /*   if(divisibilityHint.isChecked()) {
-                        if (currentscore < 1) {
-                            hint.setEnabled(false);
-                        }
-                        else{
-                            hint.setEnabled(true);
-                        }
-                    }
-                    else if(primeHint.isChecked()) {
-                        if (currentscore < 10) {
-                            hint.setEnabled(false);
-                        }
-                        else{
-                            hint.setEnabled(true);
-                        }
-                    }
-                    else if(sumHint.isChecked()) {
-                        if (currentscore < 5) {
-                            hint.setEnabled(false);
-                        }
-                        else{
-                            hint.setEnabled(true);
-                        }
-                    }
-                    else if(productHint.isChecked()) {
-                        if (currentscore < 10) {
-                            hint.setEnabled(false);
-                        }
-                        else{
-                            hint.setEnabled(true);
-                        }
+
+
+                /*    if (currentscore < 0) {
+
+                        //Toast.makeText(MainActivity.this, "You lose!", Toast.LENGTH_LONG).show();
+                        openResultActivity();
+                      //  finish();
+                       // startActivity(getIntent());
+                       // currentscore=5;
+                        //hint.setEnabled(false);
+                    //evaluate.isEnabled()
+
+
+
                     }*/
+                    Thread.currentThread().interrupt();
 
 
                     //you can use a for here and check if the command was executed or just wait and execute the 2nd command
                     try {
-
                         Thread.sleep(500); //every 0.5 second
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -269,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     public void openResultActivity(){
 
         Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-        guessNumberInt=getValueEdittext(guessNumber);
+        guessNumberInt=getValueEdittext(guessNumber);//Here will set the given number fopr that we have to convert the String to the type int
         startActivity(intent);
     }
 
@@ -279,5 +284,26 @@ public class MainActivity extends AppCompatActivity {
         int finalValue = Integer.parseInt(value);
         return finalValue;
 }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        String saved=String.valueOf(currentscore);
+        savedInstanceState.putString("currentscore", saved);
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+
+        String myInt = savedInstanceState.getString("currentscore");
+        currentscore=Integer.valueOf("currentscore");
+    }
+
 
 }
